@@ -1,4 +1,10 @@
 clusters:
+- gke: projects/service-mesh-296815/locations/europe-west1-b/clusters/intel-istio-prow-build
+  name: build-intel-istio
+  duration: 48h
+  gsm:
+    name: prow_build_cluster_kubeconfig_build-intel-istio
+    project: service-mesh-296815
 # Build cluster from k8s-prow-builds
 - gke: projects/k8s-prow-builds/locations/us-central1-f/clusters/prow
   name: default
