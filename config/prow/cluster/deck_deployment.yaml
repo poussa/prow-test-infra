@@ -63,8 +63,11 @@ spec:
         env:
         # Use KUBECONFIG envvar rather than --kubeconfig flag in order to provide multiple configs to merge.
         - name: KUBECONFIG
-          value: "/etc/kubeconfig/config:/etc/kubeconfig-build-test-infra-trusted/kubeconfig:/etc/kubeconfig-build-k8s-prow-builds/kubeconfig:/etc/kubeconfig-build-rules-k8s/kubeconfig"
+          value: "/etc/kubeconfig/config:/etc/build-intel-istio/kubeconfig:/etc/kubeconfig-build-test-infra-trusted/kubeconfig:/etc/kubeconfig-build-k8s-prow-builds/kubeconfig:/etc/kubeconfig-build-rules-k8s/kubeconfig"
         volumeMounts:
+        - mountPath: /etc/build-intel-istio
+          name: build-intel-istio
+          readOnly: true
         - name: oauth-config
           mountPath: /etc/githuboauth
           readOnly: true
@@ -109,6 +112,10 @@ spec:
           periodSeconds: 3
           timeoutSeconds: 600
       volumes:
+      - name: build-intel-istio
+        secret:
+          defaultMode: 420
+          secretName: kubeconfig-build-intel-istio
       - name: oauth-config
         secret:
           secretName: github-oauth-config

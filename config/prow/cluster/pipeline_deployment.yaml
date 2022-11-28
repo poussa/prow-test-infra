@@ -25,8 +25,11 @@ spec:
         env:
         # Use KUBECONFIG envvar rather than --kubeconfig flag in order to provide multiple configs to merge.
         - name: KUBECONFIG
-          value: "/etc/kubeconfig/config"
+          value: "/etc/kubeconfig/config:/etc/build-intel-istio/kubeconfig"
         volumeMounts:
+        - mountPath: /etc/build-intel-istio
+          name: build-intel-istio
+          readOnly: true
         - mountPath: /etc/kubeconfig
           name: kubeconfig
           readOnly: true
@@ -34,6 +37,10 @@ spec:
           name: prow-config
           readOnly: true
       volumes:
+      - name: build-intel-istio
+        secret:
+          defaultMode: 420
+          secretName: kubeconfig-build-intel-istio
       - name: kubeconfig
         secret:
           defaultMode: 420
